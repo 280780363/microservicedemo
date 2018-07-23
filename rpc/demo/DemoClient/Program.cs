@@ -16,9 +16,31 @@ namespace DemoClient
             //var context = new ChannelContext(serverChannel);
 
             var service = MagicOnionClient.Create<IUsers>(serverChannel);
-            var user = await service.Get(1);
-            Console.WriteLine(user.Name);
-            Console.ReadLine();
+
+            DateTime d1 = DateTime.Now;
+            for (int i = 0; i < 10000; i++) {
+                var user = await service.GetAll();
+            }
+            Console.WriteLine($"执行1w次总计耗时：{(DateTime.Now - d1).TotalSeconds}");
+
+
+            DateTime d2 = DateTime.Now;
+            for (int i = 0; i < 10000; i++) {
+                var user = await service.Get(1);
+            }
+            Console.WriteLine($"执行1w次总计耗时：{(DateTime.Now - d2).TotalSeconds}");
+
+            DateTime d3 = DateTime.Now;
+            for (int i = 0; i < 10000; i++) {
+                var user = await service.GetAll();
+            }
+            Console.WriteLine($"执行1w次总计耗时：{(DateTime.Now - d3).TotalSeconds}");
+
+            DateTime d4 = DateTime.Now;
+            for (int i = 0; i < 10000; i++) {
+                var user = await service.GetAll();
+            }
+            Console.WriteLine($"执行1w次总计耗时：{(DateTime.Now - d4).TotalSeconds}");
         }
     }
 }
