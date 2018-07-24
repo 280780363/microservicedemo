@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using Consul;
+using Grpc.Core;
 using MagicOnion.Client;
 using System;
 using System.Threading.Tasks;
@@ -12,7 +13,24 @@ namespace DemoClient
         }
 
         public static async Task Test() {
-            var serverChannel = new Channel("localhost", 12345, ChannelCredentials.Insecure);
+            IConsulClient consul = new ConsulClient(r => {
+                r.Address = new Uri("http://10.10.10.45:8500");
+            });
+            var services = await consul.Catalog.Service("DemoServer");
+            var list = services.Response;
+            var address = list[0].ServiceAddress;
+            var port = list[0].ServicePort;
+
+            DateTime d0 = DateTime.Now;
+            for (int i = 0; i < 10000; i++) {
+                var services0 = await consul.Catalog.Service("DemoServer");
+                var list0 = services0.Response;
+                var address0 = list0[0].ServiceAddress;
+                var port0 = list0[0].ServicePort;
+            }
+            Console.WriteLine($"consul 1w次获取耗时：{(DateTime.Now - d0).TotalSeconds}");
+
+            var serverChannel = new Channel(address, port, ChannelCredentials.Insecure);
             //var context = new ChannelContext(serverChannel);
 
             var service = MagicOnionClient.Create<IUsers>(serverChannel);

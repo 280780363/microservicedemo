@@ -19,6 +19,7 @@ namespace DemoClient
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:20000")
                 .UseStartup<Startup>();
     }
 }

@@ -16,6 +16,7 @@ namespace DemoClient
         UnaryResult<User> Get(int id);
     }
 
+
     public class MyUsers : ServiceBase<IUsers>, IUsers
     {
         List<User> _all { get; } = new List<User> {
