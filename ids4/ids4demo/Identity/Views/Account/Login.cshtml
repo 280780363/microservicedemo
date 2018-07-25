@@ -1,0 +1,34 @@
+﻿@using Identity.ViewModels
+@model LoginModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <form action="Login" method="post">
+        @Html.HiddenFor(r => r.ReturnUrl)
+        <ul>
+            <li>
+                <span>用户名：</span>
+                @Html.TextBoxFor(r => r.UserName)
+            </li>
+            <li>
+                <span>密码：</span>
+                @Html.PasswordFor(r => r.Password)
+            </li>
+            <li>
+                <input type="submit" value="登录" />
+            </li>
+        </ul>
+
+    </form>
+</body>
+</html>
