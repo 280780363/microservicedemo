@@ -1,0 +1,55 @@
+﻿@using Identity.ViewModels
+@model ConsentModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Login</title>
+</head>
+<body>
+<form asp-action="Index" method="post">
+    @Html.HiddenFor(r => r.ReturnUrl)
+    <div>
+        <p>@Model.ClientName</p>
+        <p>
+            <img src="@Model.ClientLogoUrl"/>
+        </p>
+        <p>请求使用的您的以下资料:</p>
+    </div>
+    <div>
+        <ul>
+            @foreach (var item in Model.IdentityScopes)
+            {
+                <li>
+                    @item.Name
+                    <input type="checkbox" name="Scopes" checked="@item.Checked" value="@item.Name"/>
+                </li>
+            }
+            @foreach (var item in Model.ResourceScopes)
+            {
+                <li>
+                    @item.Name
+                    <input type="checkbox" name="Scopes" checked="@item.Checked" value="@item.Name"/>
+                </li>
+            }
+        </ul>
+    </div>
+    @if (Model.AllowRememberConsent)
+    {
+        <div>
+            <label>记住我的选择</label>
+            <input type="checkbox" name="RememberConsent" />
+        </div>
+    }
+    <div>
+        <button type="submit" name="Button" value="yes">同意</button><button type="submit" name="Button" value="no">取消</button>
+    </div>
+</form>
+</body>
+</html>

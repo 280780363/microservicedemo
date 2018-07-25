@@ -11,12 +11,12 @@ namespace MvcClient.Controllers
 {
     public class HomeController : Controller
     {
-        [Authorize]
         public IActionResult Index() {
             var user = User;
             return View();
         }
 
+        [Authorize]
         public IActionResult About() {
             ViewData["Message"] = "Your application description page.";
 

@@ -15,90 +15,105 @@ namespace Identity.Data
 {
     public class SeedData
     {
-        public static List<Client> Clients() {
+        public static List<Client> Clients()
+        {
             return new List<Client>
             {
-                new Client{
+                new Client
+                {
                     // 客户端id
-                    ClientId ="mvcclient",
+                    ClientId = "mvcclient",
                     // 客户端名称
-                    ClientName ="Mvc Client",
+                    ClientName = "Mvc Client",
                     // TOKEN有效时长
                     AccessTokenLifetime = 3600,
                     // 配置TOKEN类型,reference为引用类型,数据不会存在TOKEN中
-                    AccessTokenType= AccessTokenType.Jwt,
+                    AccessTokenType = AccessTokenType.Jwt,
                     // 配置客户端授权模式
-                    AllowedGrantTypes= GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Implicit,
                     // 配置客户端连接密码
-                    ClientSecrets={ new Secret("123123".Sha256())},
+                    ClientSecrets = {new Secret("123123".Sha256())},
                     // 客户端允许的请求范围
-                    AllowedScopes={
+                    AllowedScopes =
+                    {
                         "demoapi",
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile },
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
                     //允许离线,即开启refresh_token
-                    AllowOfflineAccess =true,
-                    RequireClientSecret=false,
-                    RedirectUris={"http://localhost:5001/signin-oidc"},//跳转登录到的客户端的地址
-                    PostLogoutRedirectUris={"http://localhost:5001/signout-callback-oidc"},//跳转登出到的客户端的地址
-                    RequireConsent=true//是否需要用户点击确认进行跳转
+                    AllowOfflineAccess = true,
+                    RequireClientSecret = false,
+                    RedirectUris = {"http://localhost:5001/signin-oidc"}, //跳转登录到的客户端的地址
+                    PostLogoutRedirectUris = {"http://localhost:5001/signout-callback-oidc"}, //跳转登出到的客户端的地址
+                    RequireConsent = true, //是否需要用户点击确认进行跳转
+                    LogoUri =
+                        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532510629470&di=b437bfeceb9e5d8856276f0236431f83&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20150907%2Fmp30906533_1441629699374_2.jpeg",
+                    AllowRememberConsent = true
                 },
-                new Client{
+                new Client
+                {
                     // 客户端id
-                    ClientId ="spaclient",
+                    ClientId = "spaclient",
                     // 客户端名称
-                    ClientName ="Spa Client",
+                    ClientName = "Spa Client",
                     // TOKEN有效时长
                     AccessTokenLifetime = 3600,
                     // 配置TOKEN类型,reference为引用类型,数据不会存在TOKEN中
-                    AccessTokenType= AccessTokenType.Jwt,
+                    AccessTokenType = AccessTokenType.Jwt,
                     // 配置客户端授权模式
-                    AllowedGrantTypes= GrantTypes.ResourceOwnerPassword,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     // 配置客户端连接密码
-                    ClientSecrets={ new Secret("123123".Sha256())},
+                    ClientSecrets = {new Secret("123123".Sha256())},
                     // 客户端允许的请求范围
-                    AllowedScopes={
+                    AllowedScopes =
+                    {
                         "demoapi",
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile },
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
                     //允许离线,即开启refresh_token
-                    AllowOfflineAccess =true,
-                    RequireClientSecret=false,
+                    AllowOfflineAccess = true,
+                    RequireClientSecret = false,
                 }
             };
         }
 
-        public static IEnumerable<ApiResource> ApiResources() {
+        public static IEnumerable<ApiResource> ApiResources()
+        {
             return new List<ApiResource>
             {
                 // 定义api资源 这里如果使用构造函数传入Name会默认创建一个同名的Scope，
                 // 这点需要注意，因为这个Api如果没有Scope，那根本无法访问
                 new ApiResource
                 {
-                    Name="demoapi",
-                    DisplayName="Demo Api",
-                    Description ="测试Api",
-                    ApiSecrets= { new Secret("123123".Sha256()) },
-                    Scopes={
-                        new Scope("demoapi","Demo Api")
+                    Name = "demoapi",
+                    DisplayName = "Demo Api",
+                    Description = "测试Api",
+                    ApiSecrets = {new Secret("123123".Sha256())},
+                    Scopes =
+                    {
+                        new Scope("demoapi", "Demo Api")
                     }
                 }
             };
         }
 
-        public static IEnumerable<IdentityResource> IdentityResources() {
+        public static IEnumerable<IdentityResource> IdentityResources()
+        {
             return new List<IdentityResource>
-                {
-                    new IdentityResources.OpenId(),
-                    new IdentityResources.Profile(),
-                    new IdentityResources.Email(),
-                };
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
+            };
         }
 
-        public static List<DemoUsers> Users() {
-            return new List<DemoUsers>{
+        public static List<DemoUsers> Users()
+        {
+            return new List<DemoUsers>
+            {
                 new DemoUsers
                 {
                     UserName = "laowang",
@@ -106,7 +121,8 @@ namespace Identity.Data
                     Id = Guid.NewGuid(),
                     EmailConfirmed = true,
                     TwoFactorEnabled = false,
-                    Avatar = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528131041794&di=78ae71a3573dc86bc010e301005fea53&imgtype=0&src=http%3A%2F%2Fpic2.orsoon.com%2F2017%2F0309%2F20170309032925886.png"
+                    Avatar =
+                        "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528131041794&di=78ae71a3573dc86bc010e301005fea53&imgtype=0&src=http%3A%2F%2Fpic2.orsoon.com%2F2017%2F0309%2F20170309032925886.png"
                 },
                 new DemoUsers
                 {
