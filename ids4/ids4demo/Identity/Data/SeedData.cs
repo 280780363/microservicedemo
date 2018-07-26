@@ -15,8 +15,7 @@ namespace Identity.Data
 {
     public class SeedData
     {
-        public static List<Client> Clients()
-        {
+        public static List<Client> Clients() {
             return new List<Client>
             {
                 new Client
@@ -44,6 +43,7 @@ namespace Identity.Data
                     //允许离线,即开启refresh_token
                     AllowOfflineAccess = true,
                     RequireClientSecret = false,
+                    ClientUri="http://localhost:5001",
                     RedirectUris = {"http://localhost:5001/signin-oidc"}, //跳转登录到的客户端的地址
                     PostLogoutRedirectUris = {"http://localhost:5001/signout-callback-oidc"}, //跳转登出到的客户端的地址
                     RequireConsent = true, //是否需要用户点击确认进行跳转
@@ -80,8 +80,7 @@ namespace Identity.Data
             };
         }
 
-        public static IEnumerable<ApiResource> ApiResources()
-        {
+        public static IEnumerable<ApiResource> ApiResources() {
             return new List<ApiResource>
             {
                 // 定义api资源 这里如果使用构造函数传入Name会默认创建一个同名的Scope，
@@ -100,8 +99,7 @@ namespace Identity.Data
             };
         }
 
-        public static IEnumerable<IdentityResource> IdentityResources()
-        {
+        public static IEnumerable<IdentityResource> IdentityResources() {
             return new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
@@ -110,8 +108,7 @@ namespace Identity.Data
             };
         }
 
-        public static List<DemoUsers> Users()
-        {
+        public static List<DemoUsers> Users() {
             return new List<DemoUsers>
             {
                 new DemoUsers

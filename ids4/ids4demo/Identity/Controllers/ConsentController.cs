@@ -22,8 +22,7 @@ namespace Identity.Controllers
             IClientStore clientStore,
             IResourceStore resourceStore,
             IEventService _event,
-            IIdentityServerInteractionService interactionService)
-        {
+            IIdentityServerInteractionService interactionService) {
             this.clientStore = clientStore;
             this.resourceStore = resourceStore;
             this.interactionService = interactionService;
@@ -31,17 +30,13 @@ namespace Identity.Controllers
         }
 
         // GET
-        public async Task<IActionResult> Index(string returnUrl)
-        {
+        public async Task<IActionResult> Index(string returnUrl) {
             var request = await interactionService.GetAuthorizationContextAsync(returnUrl);
-            if (request != null)
-            {
+            if (request != null) {
                 var client = await clientStore.FindEnabledClientByIdAsync(request.ClientId);
-                if (client != null)
-                {
+                if (client != null) {
                     var resources = await resourceStore.FindResourcesByScopeAsync(request.ScopesRequested);
-                    var model = new ConsentModel
-                    {
+                    var model = new ConsentModel {
                         ClientId = request.ClientId,
                         ClientName = client.ClientName,
                         ClientLogoUrl = client.LogoUri,
@@ -51,8 +46,7 @@ namespace Identity.Controllers
                     };
 
 
-                    model.IdentityScopes = resources.IdentityResources.Select(r => new ScopeModel
-                    {
+                    model.IdentityScopes = resources.IdentityResources.Select(r => new ScopeModel {
                         Name = r.Name,
                         DisplayName = r.DisplayName,
                         Checked = r.Required,
@@ -61,8 +55,7 @@ namespace Identity.Controllers
                         Required = r.Required
                     }).ToArray();
 
-                    model.ResourceScopes = resources.ApiResources.SelectMany(r => r.Scopes).Select(r => new ScopeModel
-                    {
+                    model.ResourceScopes = resources.ApiResources.SelectMany(r => r.Scopes).Select(r => new ScopeModel {
                         Name = r.Name,
                         DisplayName = r.DisplayName,
                         Checked = r.Required,
@@ -81,31 +74,27 @@ namespace Identity.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ConsentInputModel model)
-        {
+        public async Task<IActionResult> Index(ConsentInputModel model) {
             var request = await interactionService.GetAuthorizationContextAsync(model.ReturnUrl);
             if (request == null)
                 return null;
             var client = await clientStore.FindEnabledClientByIdAsync(request.ClientId);
-            if (model.Button == "no")
-            {
+            if (model.Button == "no") {
                 await _event.RaiseAsync(
                     new ConsentDeniedEvent(User.GetSubjectId(), request.ClientId, request.ScopesRequested));
                 // 拒绝授权 返回原来的页面
-                return Redirect(model.ReturnUrl);
+                return Redirect(client.ClientUri);
             }
-            else
-            {
+            else {
                 // 同意授权
                 await _event.RaiseAsync(new ConsentGrantedEvent(User.GetSubjectId(), request.ClientId,
                     request.ScopesRequested, model.Scopes, model.RememberConsent));
-                await interactionService.GrantConsentAsync(request, new ConsentResponse
-                {
+                await interactionService.GrantConsentAsync(request, new ConsentResponse {
                     RememberConsent = model.RememberConsent,
                     ScopesConsented = model.Scopes
                 });
                 var clientCallbackUrl = client.RedirectUris.FirstOrDefault();
-                
+
                 return Redirect(model.ReturnUrl);
             }
         }
