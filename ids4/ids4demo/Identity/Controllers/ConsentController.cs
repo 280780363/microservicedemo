@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Identity.ViewModels;
 using IdentityServer4.Events;
@@ -85,6 +86,7 @@ namespace Identity.Controllers
             var request = await interactionService.GetAuthorizationContextAsync(model.ReturnUrl);
             if (request == null)
                 return null;
+            var client = await clientStore.FindEnabledClientByIdAsync(request.ClientId);
             if (model.Button == "no")
             {
                 await _event.RaiseAsync(
@@ -102,6 +104,8 @@ namespace Identity.Controllers
                     RememberConsent = model.RememberConsent,
                     ScopesConsented = model.Scopes
                 });
+                var clientCallbackUrl = client.RedirectUris.FirstOrDefault();
+                
                 return Redirect(model.ReturnUrl);
             }
         }
