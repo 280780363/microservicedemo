@@ -32,7 +32,7 @@ namespace Identity.Controllers
                 if (!string.IsNullOrWhiteSpace(loginModel.ReturnUrl))
                     return Redirect(loginModel.ReturnUrl);
                 else
-                    return Redirect("/home");
+                    return RedirectToAction(nameof(Login));
             }
             else
                 return Unauthorized();
